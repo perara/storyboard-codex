@@ -1,0 +1,50 @@
+{
+  "id": "US-001",
+  "title": "Download an invoice",
+  "category": "user-story",
+  "actor": "Account holder",
+  "goal": "Download a paid invoice as a PDF",
+  "benefit": "Keep a copy for expense records",
+  "details": "Open Billing and select Download on a paid invoice. The saved PDF includes the invoice number shown in the list. The sample files illustrate the expected result with fictional data.",
+  "review": "agreed",
+  "state": "works",
+  "modules": [
+    "account-portal",
+    "billing"
+  ],
+  "acceptance": [
+    {
+      "id": "A1",
+      "text": "Selecting Download on a paid invoice returns a PDF containing that invoice number."
+    }
+  ],
+  "proof": [
+    {
+      "checks": ["A1"],
+      "kind": "log",
+      "path": "evidence/US-001/download-example.txt",
+      "revision": "example-build-01",
+      "environment": "Synthetic example",
+      "observed_on": "2026-11-16",
+      "observation": "The synthetic log shows a PDF response for invoice EXAMPLE-001.",
+      "publish": true
+    }
+  ],
+  "attachments": [
+    {
+      "label": "Example invoice PDF",
+      "target": "media/US-001/invoice-example.pdf",
+      "publish": true
+    },
+    {
+      "label": "Invoice list mockup",
+      "target": "media/US-001/invoice-list.png",
+      "publish": true
+    },
+    {
+      "label": "HTTP download header reference",
+      "target": "https://www.rfc-editor.org/rfc/rfc6266.html",
+      "publish": true
+    }
+  ]
+}

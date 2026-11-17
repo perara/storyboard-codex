@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Storyboard record",
+  "description": "Shape of one Git record or one JSON Lines value. The Storyboard CLI checks cross-record and file references.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "actor", "goal", "benefit", "review", "state", "modules", "acceptance", "proof"],
+  "properties": {
+    "id": {"$ref": "#/$defs/id"},
+    "title": {"$ref": "#/$defs/text"},
+    "actor": {"$ref": "#/$defs/text"},
+    "goal": {"$ref": "#/$defs/text"},
+    "benefit": {"$ref": "#/$defs/text"},
+    "category": {"$ref": "#/$defs/slug", "default": "user-story"},
+    "details": {"type": "string", "default": ""},
+    "review": {"enum": ["proposed", "agreed"]},
+    "state": {"enum": ["later", "planned", "building", "works"]},
+    "modules": {
+      "type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/slug"}
+    },
+    "acceptance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "text"],
+        "properties": {
+          "id": {"$ref": "#/$defs/checkId"},
+          "text": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "proof": {"type": "array", "items": {"$ref": "#/$defs/proof"}},
+    "attachments": {"type": "array", "default": [], "items": {"$ref": "#/$defs/attachment"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"state": {"enum": ["building", "works"]}}},
+      "then": {
+        "properties": {
+          "review": {"const": "agreed"},
+          "acceptance": {"type": "array", "minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"state": {"const": "works"}}},
+      "then": {"properties": {"proof": {"type": "array", "minItems": 1}}}
+    }
+  ],
+  "$defs": {
+    "id": {"type": "string", "pattern": "^US-(00[1-9]|0[1-9][0-9]|[1-9][0-9]{2,}|r[0-9a-f]{16})$"},
+    "slug": {"type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"},
+    "checkId": {"type": "string", "pattern": "^A[1-9][0-9]*$"},
+    "text": {"type": "string", "pattern": "\\S"},
+    "publish": {"type": "boolean", "default": false},
+    "attachment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "target"],
+      "properties": {
+        "label": {"$ref": "#/$defs/text"},
+        "target": {
+          "type": "string",
+          "anyOf": [
+            {"format": "uri", "pattern": "^[Hh][Tt][Tt][Pp][Ss]://"},
+            {"pattern": "^media/US-([0-9]{3,}|r[0-9a-f]{16})/[A-Za-z0-9][A-Za-z0-9._-]*$"}
+          ]
+        },
+        "publish": {"$ref": "#/$defs/publish"}
+      }
+    },
+    "proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checks", "kind", "path", "revision", "environment", "observed_on", "observation"],
+      "properties": {
+        "checks": {
+          "type": "array", "uniqueItems": true, "minItems": 1, "items": {"$ref": "#/$defs/checkId"}
+        },
+        "kind": {"enum": ["log", "image"]},
+        "path": {"type": "string", "pattern": "^evidence/US-([0-9]{3,}|r[0-9a-f]{16})/[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "revision": {"$ref": "#/$defs/text"},
+        "environment": {"$ref": "#/$defs/text"},
+        "observed_on": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "observation": {"$ref": "#/$defs/text"},
+        "publish": {"$ref": "#/$defs/publish"}
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+Synthetic sample for the story workflow documentation.
+Build: example-build-01
+Check A1: select Download on invoice EXAMPLE-001.
+Observed: 200 application/pdf. The PDF contains invoice number EXAMPLE-001.
+Sample result: PASS

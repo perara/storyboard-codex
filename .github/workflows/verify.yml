@@ -1,0 +1,19 @@
+name: Validate Storyboard
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Check the marketplace package and dashboard
+        run: python3 -B tests/smoke.py

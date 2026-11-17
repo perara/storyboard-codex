@@ -1,0 +1,7 @@
+{
+  "name": "story-workflow",
+  "version": "0.6.0",
+  "description": "Set up, maintain, and host a Git-backed Storyboard with Mermaid diagrams and inspectable proof.",
+  "requires_local_executor": true,
+  "skills": "./skills/"
+}

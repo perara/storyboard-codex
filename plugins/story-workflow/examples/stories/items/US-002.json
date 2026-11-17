@@ -1,0 +1,16 @@
+{
+  "id": "US-002",
+  "title": "Invoice year filter resets after opening an invoice",
+  "category": "bug",
+  "actor": "Account holder",
+  "goal": "Return to the previously selected year after viewing an invoice",
+  "benefit": "Continue year-end review without setting the filter again",
+  "details": "In the synthetic scenario, a user selects 2025, opens an invoice, and goes back. The invoice list resets to the current year.",
+  "review": "proposed",
+  "state": "planned",
+  "modules": ["account-portal"],
+  "acceptance": [
+    {"id": "A1", "text": "Returning from an invoice restores the year filter and its matching invoices."}
+  ],
+  "proof": []
+}

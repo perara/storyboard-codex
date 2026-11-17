@@ -1,0 +1,2 @@
+# Preserve the upstream browser bundle verbatim.
+plugins/story-workflow/skills/story-workflow/assets/mermaid/mermaid.min.js -text -whitespace linguist-vendored=true

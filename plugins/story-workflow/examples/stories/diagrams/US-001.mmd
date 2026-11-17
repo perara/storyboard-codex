@@ -1,0 +1,12 @@
+flowchart TB
+    accTitle: Download a paid invoice
+    accDescr: Open Billing and select Download. An eligible invoice produces a PDF with the same number. Unavailable invoices get a generic message and generation can be retried.
+
+    billing["Open Billing"] --> download["Select Download"]
+    download --> eligible{"Paid invoice for this account?"}
+    eligible -->|No| unavailable["Show Invoice unavailable"]
+    eligible -->|Yes| generate["Generate PDF with the invoice number"]
+    generate --> success{"PDF ready?"}
+    success -->|Yes| save["Save the PDF"]
+    success -->|No| failure["Show Could not download invoice"]
+    failure -->|Retry| eligible
